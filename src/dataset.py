@@ -51,11 +51,15 @@ class ResizeAndPadSquare:
         pad_top = pad_h // 2
         pad_bottom = pad_h - pad_top
 
-        return f.pad(img, (pad_left, pad_top, pad_right, pad_bottom), fill=255)
+        padded_img = f.pad(img, (pad_left, pad_top, pad_right, pad_bottom), fill=255)
+        return f.to_tensor(padded_img)
 
 
-def get_collate_fn(tokenizer):
-    def collate_fn(batch):
+class CollateFn:
+    def __init__(self, pad_idx):
+        self.pad_idx = pad_idx
+        
+    def __call__(self, batch):
         images = []
         labels = []
 
@@ -67,9 +71,6 @@ def get_collate_fn(tokenizer):
         labels = torch.nn.utils.rnn.pad_sequence(
             labels,
             batch_first=True,
-            padding_value=tokenizer.token_to_id[tokenizer.PAD]
+            padding_value=self.pad_idx
         )
-        
         return images, labels
-        
-    return collate_fn

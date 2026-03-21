@@ -19,7 +19,7 @@ class PositionalEncoding(nn.Module):
 class SwinEncoder(nn.Module):
     def __init__(self, d_model = 256):
         super().__init__()
-        swin = models.swin_v2_t(weights = models.Swin_T_Weights.DEFAULT)
+        swin = models.swin_v2_t(weights = models.Swin_V2_T_Weights.DEFAULT)
         self.features = swin.features
         self.project = nn.Linear(768, d_model)
     
