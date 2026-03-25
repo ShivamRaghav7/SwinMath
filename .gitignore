@@ -2,3 +2,4 @@ data/
 checkpoints/
 .vscode/
 __pycache__/
+.gradio/
